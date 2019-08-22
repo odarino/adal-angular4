@@ -241,16 +241,23 @@ export class AdalService {
 
     private setupLoginTokenRefreshTimer(): void {
         // Get expiration of login token
-        let exp = this.context._getItem(this.context.CONSTANTS.STORAGE.EXPIRATION_KEY + <any>this.context.config.loginResource);
+//         let exp = this.context._getItem(this.context.CONSTANTS.STORAGE.EXPIRATION_KEY + <any>this.context.config.loginResource);
 
-        // Either wait until the refresh window is valid or refresh in 1 second (measured in seconds)
-        let timerDelay = exp - this.now() - (this.context.config.expireOffsetSeconds || 300) > 0 ? exp - this.now() - (this.context.config.expireOffsetSeconds || 300) : 1;
-        if (this.loginRefreshTimer) this.loginRefreshTimer.unsubscribe();
+//         // Either wait until the refresh window is valid or refresh in 1 second (measured in seconds)
+//         let timerDelay = exp - this.now() - (this.context.config.expireOffsetSeconds || 300) > 0 ? exp - this.now() - (this.context.config.expireOffsetSeconds || 300) : 1;
+//         if (this.loginRefreshTimer) this.loginRefreshTimer.unsubscribe();
 
-        this.ngZone.runOutsideAngular(() => {
-            this.loginRefreshTimer = timer(timerDelay * 1000).subscribe((x) => {
-                this.refreshLoginToken()
-            });
-        });
+//         this.ngZone.runOutsideAngular(() => {
+//             this.loginRefreshTimer = timer(timerDelay * 1000).subscribe((x) => {
+//                 this.refreshLoginToken()
+//             });
+//         });
+
+        // fpt edit
+        var _this = this;
+        var exp = this.context._getItem(this.context.CONSTANTS.STORAGE.EXPIRATION_KEY + this.context.config.loginResource);
+        var timerDelay = exp - this.now() - (this.context.config.expireOffsetSeconds || 300) > 0 ? exp - this.now() - (this.context.config.expireOffsetSeconds || 300) : 1;
+ 
+        this.loginRefreshTimer = timerDelay * 1000;
     }
 }
